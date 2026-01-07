@@ -12,6 +12,7 @@
     "strict": true
   },
   "exclude": [
-    "prisma.config.ts"
+    "prisma.config.ts",
+    "scripts"
   ]
 }
