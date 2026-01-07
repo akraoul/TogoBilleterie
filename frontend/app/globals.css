@@ -3,6 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --togo-green: #006a4e;
+  --togo-yellow: #ffce00;
+  --togo-red: #d21034;
 }
 
 @theme inline {
@@ -10,12 +13,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-togo-green: var(--togo-green);
+  --color-togo-yellow: var(--togo-yellow);
+  --color-togo-red: var(--togo-red);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #232323;
   }
 }
 

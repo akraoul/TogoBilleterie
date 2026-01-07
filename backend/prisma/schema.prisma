@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String?  @unique
+  phoneNumber String?  @unique
+  name        String?
+  password    String   // Will be hashed
+  role        Role     @default(USER)
+  tickets     Ticket[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  date        DateTime
+  location    String
+  price       Float
+  category    String
+  imageUrl    String?
+  organizer   String
+  tmoneyNumber String?
+  floozNumber  String?
+  totalTickets Int      @default(100)
+  status      EventStatus @default(PENDING)
+  tickets     Ticket[]
+  ticketTypes TicketType[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TicketType {
+  id        Int      @id @default(autoincrement())
+  name      String   // e.g. "Standard", "VIP"
+  price     Float
+  quantity  Int
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id])
+  tickets   Ticket[]
+}
+
+model Ticket {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  eventId       Int
+  ticketTypeId  Int?        // Optional for backward compatibility, or make required after migration
+  status        TicketStatus @default(VALID)
+  qrCode        String      @unique 
+  user          User        @relation(fields: [userId], references: [id])
+  event         Event       @relation(fields: [eventId], references: [id])
+  ticketType    TicketType? @relation(fields: [ticketTypeId], references: [id])
+  payment       Payment?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Payment {
+  id            Int      @id @default(autoincrement())
+  ticketId      Int      @unique
+  amount        Float
+  method        PaymentMethod
+  status        PaymentStatus @default(PENDING)
+  transactionId String?
+  ticket        Ticket   @relation(fields: [ticketId], references: [id])
+  createdAt     DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+  ORGANIZER
+}
+
+enum EventStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum TicketStatus {
+  VALID
+  USED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum PaymentMethod {
+  TMONEY
+  FLOOZ
+  CARD
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

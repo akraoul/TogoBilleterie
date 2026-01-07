@@ -1,0 +1,12 @@
+[2026-01-07T14:04:15.973Z] Registration Failed: {
+  "name": "ZodError",
+  "message": "[\n  {\n    \"origin\": \"string\",\n    \"code\": \"invalid_format\",\n    \"format\": \"email\",\n    \"pattern\": \"/^(?!\\\\.)(?!.*\\\\.\\\\.)([A-Za-z0-9_'+\\\\-\\\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\\\-]*\\\\.)+[A-Za-z]{2,}$/\",\n    \"path\": [\n      \"email\"\n    ],\n    \"message\": \"Invalid email address\"\n  }\n]"
+}
+[2026-01-07T14:05:00.080Z] Registration Failed: {
+  "name": "ZodError",
+  "message": "[\n  {\n    \"origin\": \"string\",\n    \"code\": \"invalid_format\",\n    \"format\": \"regex\",\n    \"pattern\": \"/^\\\\+228\\\\d{8}$/\",\n    \"path\": [\n      \"phoneNumber\"\n    ],\n    \"message\": \"Format invalide: +228 90 90 90 90\"\n  }\n]"
+}
+[2026-01-07T20:42:53.614Z] Registration Failed: {
+  "name": "ZodError",
+  "message": "[\n  {\n    \"origin\": \"string\",\n    \"code\": \"invalid_format\",\n    \"format\": \"regex\",\n    \"pattern\": \"/^\\\\+228\\\\d{8}$/\",\n    \"path\": [\n      \"phoneNumber\"\n    ],\n    \"message\": \"Format invalide: +228 90 90 90 90\"\n  }\n]"
+}
