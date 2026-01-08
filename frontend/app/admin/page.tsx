@@ -111,6 +111,7 @@ export default function AdminDashboard() {
                         <h3 className="font-bold text-gray-800">Tous les événements</h3>
                         <span className="text-xs font-medium bg-green-100 text-green-800 px-2 py-1 rounded-full">{events.length} total</span>
                     </div>
+                    {/* ... (existing events table) ... */}
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
                             <thead className="text-xs text-gray-500 uppercase bg-gray-50">
@@ -134,9 +135,11 @@ export default function AdminDashboard() {
                                             <td className="px-6 py-4">
                                                 <span className={`px-2 py-1 text-xs font-bold rounded-full ${event.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
                                                     event.status === 'REJECTED' ? 'bg-red-100 text-red-800' :
-                                                        'bg-yellow-100 text-yellow-800'
+                                                        event.status === 'CANCELLED' ? 'bg-gray-100 text-gray-800' :
+                                                            event.status === 'CANCELLATION_REQUESTED' ? 'bg-orange-100 text-orange-800' :
+                                                                'bg-yellow-100 text-yellow-800'
                                                     }`}>
-                                                    {event.status}
+                                                    {event.status === 'CANCELLATION_REQUESTED' ? 'Demande Annul.' : event.status}
                                                 </span>
                                             </td>
                                         </tr>
@@ -147,6 +150,46 @@ export default function AdminDashboard() {
                     </div>
                 </div>
             </div>
+
+            {/* Cancellation Requests Section */}
+            {events.some(e => e.status === 'CANCELLATION_REQUESTED') && (
+                <div className="mb-12">
+                    <h3 className="text-xl font-bold text-gray-800 mb-4 text-red-600">⚠️ Demandes d&apos;Annulation (Urgent)</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {events.filter(e => e.status === 'CANCELLATION_REQUESTED').map(event => (
+                            <div key={event.id} className="bg-white border-l-4 border-red-500 rounded-lg shadow-sm p-6">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h4 className="font-bold text-lg text-gray-900">{event.title}</h4>
+                                        <p className="text-sm text-gray-500">Par: {event.organizer}</p>
+                                    </div>
+                                    <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded font-bold">À VALIDER</span>
+                                </div>
+                                <div className="bg-gray-50 p-3 rounded text-gray-700 text-sm mb-4">
+                                    <strong>Motif:</strong> {event.cancellationReason || "Aucun motif fourni."}
+                                </div>
+                                <div className="flex justify-end">
+                                    <button
+                                        onClick={async () => {
+                                            if (!confirm("Valider l'annulation et lancer les remboursements ?")) return;
+                                            try {
+                                                await api.post(`/events/${event.id}/cancel-approve`);
+                                                alert("Annulation validée !");
+                                                window.location.reload();
+                                            } catch (e) {
+                                                alert("Erreur");
+                                            }
+                                        }}
+                                        className="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700 font-bold text-sm"
+                                    >
+                                        Approuver l&apos;Annulation 🚨
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
