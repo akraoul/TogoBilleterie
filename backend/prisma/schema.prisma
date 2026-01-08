@@ -35,6 +35,7 @@ model Event {
   floozNumber  String?
   totalTickets Int      @default(100)
   status      EventStatus @default(PENDING)
+  cancellationReason String?
   tickets     Ticket[]
   ticketTypes TicketType[]
   createdAt   DateTime @default(now())
@@ -88,6 +89,7 @@ enum EventStatus {
   APPROVED
   REJECTED
   CANCELLED
+  CANCELLATION_REQUESTED
 }
 
 enum TicketStatus {

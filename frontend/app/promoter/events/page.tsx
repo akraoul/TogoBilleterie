@@ -13,6 +13,8 @@ export default function MyEventsPage() {
     const [selectedEvent, setSelectedEvent] = useState<any>(null);
     const [showCancelModal, setShowCancelModal] = useState(false);
 
+    const [cancellationReason, setCancellationReason] = useState('');
+
     useEffect(() => {
         const fetchEvents = async () => {
             try {
@@ -35,6 +37,8 @@ export default function MyEventsPage() {
                 return <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-bold uppercase">Rejeté</span>;
             case 'CANCELLED':
                 return <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs font-bold uppercase">Annulé</span>;
+            case 'CANCELLATION_REQUESTED':
+                return <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-bold uppercase">En cours d'annulation</span>;
             default:
                 return <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold uppercase">En Attente</span>;
         }
@@ -42,22 +46,28 @@ export default function MyEventsPage() {
 
     const handleCancelClick = (event: any) => {
         setSelectedEvent(event);
+        setCancellationReason('');
         setShowCancelModal(true);
     };
 
-    const confirmCancel = async () => {
-        if (!selectedEvent) return;
+    const submitCancellationRequest = async () => {
+        if (!selectedEvent || !cancellationReason.trim()) {
+            alert("Veuillez entrer un motif d'annulation.");
+            return;
+        }
+
         try {
-            await api.post(`/events/${selectedEvent.id}/cancel`);
+            await api.post(`/events/${selectedEvent.id}/cancel-request`, { reason: cancellationReason });
             // Refresh events
             const { data } = await api.get('/events/my');
             setEvents(data);
             setShowCancelModal(false);
             setSelectedEvent(null);
-            alert("L'événement a été annulé avec succès.");
-        } catch (error) {
-            console.error('Error cancelling event', error);
-            alert("Erreur lors de l'annulation.");
+            setCancellationReason('');
+            alert("Votre demande d'annulation a été envoyée à l'administrateur.");
+        } catch (error: any) {
+            console.error('Error requesting cancellation', error);
+            alert(error.response?.data?.message || "Erreur lors de la demande d'annulation.");
         }
     };
 
@@ -127,7 +137,7 @@ export default function MyEventsPage() {
                                         Voir détails &rarr;
                                     </button>
 
-                                    {event.status !== 'CANCELLED' && event.status !== 'REJECTED' && (
+                                    {event.status !== 'CANCELLED' && event.status !== 'REJECTED' && event.status !== 'CANCELLATION_REQUESTED' && (
                                         <button
                                             onClick={() => handleCancelClick(event)}
                                             className="text-red-600 font-medium hover:text-red-800 text-sm transition-colors ml-2"
@@ -143,36 +153,46 @@ export default function MyEventsPage() {
             )}
 
 
-            {/* Cancel Confirmation Modal */}
-            {
-                showCancelModal && selectedEvent && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                        <div className="bg-white rounded-lg p-6 max-w-md w-full">
-                            <h3 className="text-xl font-bold text-gray-900 mb-4">Annuler l&apos;événement ?</h3>
-                            <p className="text-gray-600 mb-6">
-                                Êtes-vous sûr de vouloir annuler <strong>{selectedEvent.title}</strong> ?
-                                <br /><br />
-                                <span className="text-red-600 font-bold">ATTENTION :</span> Cette action est irréversible.
-                                Tous les billets vendus seront annulés et seront Remboursés.
-                            </p>
-                            <div className="flex justify-end gap-3">
-                                <button
-                                    onClick={() => setShowCancelModal(false)}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium"
-                                >
-                                    Retour
-                                </button>
-                                <button
-                                    onClick={confirmCancel}
-                                    className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg font-bold shadow-sm"
-                                >
-                                    Rembourser et Annuler
-                                </button>
-                            </div>
+            {/* Cancellation Request Modal */}
+            {showCancelModal && selectedEvent && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-6 max-w-md w-full">
+                        <h3 className="text-xl font-bold text-gray-900 mb-4">Demander l&apos;annulation</h3>
+                        <p className="text-gray-600 mb-4">
+                            Vous êtes sur le point de demander l&apos;annulation de <strong>{selectedEvent.title}</strong>.
+                            <br />
+                            Cette demande doit être validée par un administrateur.
+                        </p>
+
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Motif de l&apos;annulation (Requis)</label>
+                            <textarea
+                                value={cancellationReason}
+                                onChange={(e) => setCancellationReason(e.target.value)}
+                                className="w-full border rounded-md p-2 focus:ring-2 focus:ring-togo-green focus:border-transparent outline-none"
+                                rows={4}
+                                placeholder="Expliquez pourquoi vous annulez cet événement..."
+                            />
+                        </div>
+
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => setShowCancelModal(false)}
+                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium"
+                            >
+                                Retour
+                            </button>
+                            <button
+                                onClick={submitCancellationRequest}
+                                disabled={!cancellationReason.trim()}
+                                className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg font-bold shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Envoyer la demande
+                            </button>
                         </div>
                     </div>
-                )
-            }
-        </div >
+                </div>
+            )}
+        </div>
     );
 }

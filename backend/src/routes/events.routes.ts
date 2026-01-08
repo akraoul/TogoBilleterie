@@ -23,7 +23,10 @@ router.post('/', authorizeOrganizer, upload.single('image'), createEvent);
 router.put('/:id', authorizeOrganizer, upload.single('image'), updateEvent);
 
 // Cancellation
-import { cancelEvent } from '../controllers/cancellation.controller';
-router.post('/:id/cancel', authorizeOrganizer, cancelEvent);
+import { requestCancellation, approveCancellation } from '../controllers/cancellation.controller';
+import { authorizeAdmin } from '../middlewares/admin.middleware';
+
+router.post('/:id/cancel-request', authorizeOrganizer, requestCancellation);
+router.post('/:id/cancel-approve', authorizeAdmin, approveCancellation);
 
 export default router;
