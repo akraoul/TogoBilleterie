@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 async function createAdmin() {
     const email = 'admin@togotickets.com';
-    const password = 'adminpassword123';
+    const password = 'raoul07';
     const name = 'Super Admin';
 
     try {
