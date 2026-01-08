@@ -71,12 +71,20 @@ export const cancelEvent = async (req: AuthRequest, res: Response) => {
 
         // 3. Notify Users (Non-blocking)
         // In a real app, use a queue. Here we just loop.
+        const organizerContact = `
+        --------------------
+        Contact Promoteur:
+        Nom: ${user?.name || 'Nom non disponible'}
+        Email: ${user?.email || 'Email non disponible'}
+        Tel: ${user?.phoneNumber || 'Numéro non disponible'}
+        --------------------`;
+
         result.validTickets.forEach(ticket => {
             if (ticket.user.email) {
                 sendEmail(
                     ticket.user.email,
                     `Annulation Événement: ${event.title}`,
-                    `Bonjour, \n\nL'événement "${event.title}" a été annulé par l'organisateur. \n\nVotre billet a été annulé et une procédure de remboursement a été initiée pour votre paiement (Référence Ticket: ${ticket.qrCode}).\n\nCordialement,\nL'équipe TogoTickets`
+                    `Bonjour, \n\nL'événement "${event.title}" a été annulé par l'organisateur. \n\nVotre billet a été annulé et une procédure de remboursement a été initiée.\n\nEn cas de problème ou de question concernant votre remboursement, veuillez contacter directement l'organisateur avec les informations ci-dessous:\n${organizerContact}\n\nCordialement,\nL'équipe TogoTickets`
                 ).catch(console.error);
             }
         });
