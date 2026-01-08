@@ -112,7 +112,11 @@ export const requestCancellation = async (req: AuthRequest, res: Response) => {
         const event = await prisma.event.findUnique({ where: { id: parseInt(id) } });
 
         if (!event) return res.status(404).json({ message: 'Event not found' });
-        if (event.organizer !== organizerName) return res.status(403).json({ message: 'Not authorized' });
+
+        // Robust authorization check: match against name OR email
+        if (event.organizer !== user?.name && event.organizer !== user?.email) {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
 
         if (event.status === EventStatus.CANCELLED) return res.status(400).json({ message: 'Already cancelled' });
         if (event.status === EventStatus.CANCELLATION_REQUESTED) return res.status(400).json({ message: 'Request already pending' });

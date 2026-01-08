@@ -140,7 +140,7 @@ export const updateEvent = async (req: AuthRequest, res: Response) => {
             return res.status(404).json({ message: 'Event not found' });
         }
 
-        if (event.organizer !== organizerName) {
+        if (event.organizer !== user?.name && event.organizer !== user?.email) {
             return res.status(403).json({ message: 'You are not authorized to edit this event' });
         }
 
