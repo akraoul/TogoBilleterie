@@ -1,9 +1,5 @@
 "use client";
-
-import { MapPin, Calendar, Clock, ArrowRight } from "lucide-react";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
-import Link from "next/link";
+import { cn, getValidImageUrl } from "../lib/utils";
 
 export interface EventProps {
     id: number;
@@ -17,14 +13,15 @@ export interface EventProps {
 
 export default function EventCard({ event }: { event: EventProps }) {
     const eventDate = new Date(event.date);
+    const validImageUrl = getValidImageUrl(event.imageUrl);
 
     return (
         <div className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full transform hover:-translate-y-1">
             {/* Image Container */}
             <div className="relative h-48 overflow-hidden">
-                {event.imageUrl ? (
+                {validImageUrl ? (
                     <img
-                        src={event.imageUrl}
+                        src={validImageUrl}
                         alt={event.title}
                         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                     />

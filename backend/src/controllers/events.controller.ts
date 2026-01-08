@@ -15,8 +15,9 @@ export const createEvent = async (req: AuthRequest, res: Response) => {
 
         let imageUrl = req.body.imageUrl; // Fallback to URL if provided
         if (req.file) {
-            // Assuming server is running on localhost:3001, otherwise use env var
-            const baseUrl = process.env.API_URL || 'http://localhost:3001';
+            // Use API_URL, fallback to Railway Domain, or localhost
+            const baseUrl = process.env.API_URL ||
+                (process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : 'http://localhost:3001');
             imageUrl = `${baseUrl}/uploads/events/${req.file.filename}`;
         }
 
@@ -145,7 +146,8 @@ export const updateEvent = async (req: AuthRequest, res: Response) => {
 
         let imageUrl = event.imageUrl;
         if (req.file) {
-            const baseUrl = process.env.API_URL || 'http://localhost:3001';
+            const baseUrl = process.env.API_URL ||
+                (process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : 'http://localhost:3001');
             imageUrl = `${baseUrl}/uploads/events/${req.file.filename}`;
         }
 

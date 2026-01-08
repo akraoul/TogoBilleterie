@@ -5,6 +5,7 @@ import api from '../../../lib/api';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Calendar, MapPin, DollarSign, Clock } from 'lucide-react';
+import { getValidImageUrl } from '../../../lib/utils';
 
 export default function MyEventsPage() {
     const [events, setEvents] = useState<any[]>([]);
@@ -53,7 +54,7 @@ export default function MyEventsPage() {
                         <div key={event.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-shadow">
                             <div className="md:w-48 h-48 md:h-auto bg-gray-100 relative shrink-0">
                                 {event.imageUrl ? (
-                                    <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover" />
+                                    <img src={getValidImageUrl(event.imageUrl)} alt={event.title} className="w-full h-full object-cover" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-gray-400">
                                         Pas d&apos;image
