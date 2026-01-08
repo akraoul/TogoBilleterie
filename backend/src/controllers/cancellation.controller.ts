@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient, EventStatus, PaymentStatus } from '@prisma/client';
 import { sendEmail } from '../utils/email';
+import { sendSMS } from '../utils/sms';
 
 const prisma = new PrismaClient();
 
@@ -80,11 +81,20 @@ export const cancelEvent = async (req: AuthRequest, res: Response) => {
         --------------------`;
 
         result.validTickets.forEach(ticket => {
+            // Email Notification
             if (ticket.user.email) {
                 sendEmail(
                     ticket.user.email,
                     `Annulation Événement: ${event.title}`,
                     `Bonjour, \n\nL'événement "${event.title}" a été annulé par l'organisateur. \n\nVotre billet a été annulé et une procédure de remboursement a été initiée.\n\nEn cas de problème ou de question concernant votre remboursement, veuillez contacter directement l'organisateur avec les informations ci-dessous:\n${organizerContact}\n\nCordialement,\nL'équipe TogoTickets`
+                ).catch(console.error);
+            }
+
+            // SMS Notification
+            if (ticket.user.phoneNumber) {
+                sendSMS(
+                    ticket.user.phoneNumber,
+                    `TogoTickets: L'événement "${event.title}" a été annulé. Consultez votre email pour les détails du remboursement et le contact de l'organisateur.`
                 ).catch(console.error);
             }
         });
