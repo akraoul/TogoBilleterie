@@ -28,7 +28,12 @@ export default function AdminLoginPage() {
             // Login and redirect to /admin
             login(data.token, data.user, '/admin');
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Identifiants invalides');
+            console.error("Login Error:", err);
+            if (err.message === "Network Error" || !err.response) {
+                setError("Erreur de connexion au serveur. Vérifiez votre internet ou la configuration.");
+            } else {
+                setError(err.response?.data?.message || 'Identifiants invalides');
+            }
         } finally {
             setIsLoading(false);
         }
