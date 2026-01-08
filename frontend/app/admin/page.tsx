@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
-import { Users, Calendar, AlertCircle } from 'lucide-react';
+import { Users, Calendar, AlertCircle, Trash2 } from 'lucide-react';
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState<any>(null);

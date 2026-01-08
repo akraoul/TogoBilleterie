@@ -29,4 +29,8 @@ import { authorizeAdmin } from '../middlewares/admin.middleware';
 router.post('/:id/cancel-request', authorizeOrganizer, requestCancellation);
 router.post('/:id/cancel-approve', authorizeAdmin, approveCancellation);
 
+// Admin Deletion
+import { deleteEvent } from '../controllers/events.controller';
+router.delete('/:id', authorizeAdmin, deleteEvent);
+
 export default router;

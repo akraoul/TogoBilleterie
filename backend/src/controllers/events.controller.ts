@@ -217,6 +217,50 @@ export const getEventById = async (req: Request, res: Response) => {
 
         res.json(event);
     } catch (error) {
+    } catch (error) {
         res.status(500).json({ message: 'Error fetching event details', error });
+    }
+};
+
+export const deleteEvent = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const eventId = parseInt(id);
+
+        // Transactional delete to clean up all related data
+        await prisma.$transaction([
+            // 1. Delete associated payments (via tickets)
+            prisma.payment.deleteMany({
+                where: {
+                    ticket: {
+                        eventId: eventId
+                    }
+                }
+            }),
+            // 2. Delete tickets
+            prisma.ticket.deleteMany({
+                where: {
+                    eventId: eventId
+                }
+            }),
+            // 3. Delete ticket types
+            prisma.ticketType.deleteMany({
+                where: {
+                    eventId: eventId
+                }
+            }),
+            // 4. Finally delete the event
+            prisma.event.delete({
+                where: {
+                    id: eventId
+                }
+            })
+        ]);
+
+        res.json({ message: 'Event and all associated data deleted successfully' });
+
+    } catch (error) {
+        console.error("Error deleting event:", error);
+        res.status(500).json({ message: 'Error deleting event', error });
     }
 };
