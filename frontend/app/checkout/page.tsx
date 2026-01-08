@@ -47,6 +47,26 @@ function CheckoutContent() {
                     }
                 }
             }
+
+            // Try to fetch user profile to pre-fill form
+            try {
+                const { data: user } = await api.get('/auth/me');
+                if (user) {
+                    setEmail(user.email || '');
+                    setPhone(user.phoneNumber || '');
+                    if (user.name) {
+                        const parts = user.name.split(' ');
+                        if (parts.length > 1) {
+                            setFirstName(parts[0]);
+                            setLastName(parts.slice(1).join(' '));
+                        } else {
+                            setFirstName(user.name);
+                        }
+                    }
+                }
+            } catch (e) {
+                // Not logged in or error, ignore
+            }
         };
         loadData();
     }, [eventId, ticketId]);
