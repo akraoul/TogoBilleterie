@@ -19,7 +19,10 @@ export default function AdminLoginPage() {
         setError('');
 
         try {
-            const { data } = await api.post('/auth/login', { identifier, password });
+            const { data } = await api.post('/auth/login', {
+                identifier: identifier.trim(),
+                password
+            });
 
             if (data.user.role !== 'ADMIN') {
                 setError("Accès refusé. Ce compte n'a pas les droits d'administrateur.");
