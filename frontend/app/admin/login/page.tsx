@@ -36,7 +36,8 @@ export default function AdminLoginPage() {
             if (err.message === "Network Error" || !err.response) {
                 setError("Erreur de connexion au serveur. Vérifiez votre internet ou la configuration.");
             } else {
-                setError(err.response?.data?.message || 'Identifiants invalides');
+                // Debugging: Show exact error from server
+                setError(`Erreur ${err.response.status}: ${JSON.stringify(err.response.data)}`);
             }
         } finally {
             setIsLoading(false);
