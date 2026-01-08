@@ -30,7 +30,12 @@ export default function LoginPage() {
                 login(data.token, data.user, '/');
             }
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Une erreur est survenue');
+            console.error(err);
+            if (err.message === "Network Error" || !err.response) {
+                setError("Impossible de contacter le serveur. Vérifiez votre connexion internet.");
+            } else {
+                setError(err.response?.data?.message || 'Une erreur est survenue');
+            }
         } finally {
             setIsLoading(false);
         }
