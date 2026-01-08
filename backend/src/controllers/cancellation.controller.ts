@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, EventStatus, PaymentStatus } from '@prisma/client';
 import { sendEmail } from '../utils/email';
 
 const prisma = new PrismaClient();
@@ -30,7 +30,7 @@ export const cancelEvent = async (req: AuthRequest, res: Response) => {
             return res.status(403).json({ message: 'You are not authorized to cancel this event' });
         }
 
-        if (event.status === 'CANCELLED') {
+        if (event.status === EventStatus.CANCELLED) {
             return res.status(400).json({ message: 'Event is already cancelled' });
         }
 
@@ -49,21 +49,21 @@ export const cancelEvent = async (req: AuthRequest, res: Response) => {
             await tx.payment.updateMany({
                 where: {
                     ticket: { eventId: parseInt(id) },
-                    status: 'COMPLETED'
+                    status: PaymentStatus.COMPLETED
                 },
-                data: { status: 'REFUNDED' }
+                data: { status: PaymentStatus.REFUNDED }
             });
 
             // Update Tickets to CANCELLED
             await tx.ticket.updateMany({
                 where: { eventId: parseInt(id) },
-                data: { status: 'CANCELLED' }
+                data: { status: 'CANCELLED' } // TicketStatus.CANCELLED (if exported or string is fine)
             });
 
             // Update Event to CANCELLED
             const updatedEvent = await tx.event.update({
                 where: { id: parseInt(id) },
-                data: { status: 'CANCELLED' }
+                data: { status: EventStatus.CANCELLED }
             });
 
             return { updatedEvent, validTickets };

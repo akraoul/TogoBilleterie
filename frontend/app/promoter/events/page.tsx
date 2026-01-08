@@ -120,38 +120,38 @@ export default function MyEventsPage() {
                     ))}
                 </div>
             )}
-        </div>
 
-            {/* Cancel Confirmation Modal */ }
-    {
-        showCancelModal && selectedEvent && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-lg p-6 max-w-md w-full">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">Annuler l&apos;événement ?</h3>
-                    <p className="text-gray-600 mb-6">
-                        Êtes-vous sûr de vouloir annuler <strong>{selectedEvent.title}</strong> ?
-                        <br /><br />
-                        <span className="text-red-600 font-bold">ATTENTION :</span> Cette action est irréversible.
-                        Tous les billets vendus seront annulés et marqués comme &quot;Remboursés&quot; dans le système.
-                    </p>
-                    <div className="flex justify-end gap-3">
-                        <button
-                            onClick={() => setShowCancelModal(false)}
-                            className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium"
-                        >
-                            Retour
-                        </button>
-                        <button
-                            onClick={confirmCancel}
-                            className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg font-bold shadow-sm"
-                        >
-                            Rembourser et Annuler
-                        </button>
+
+            {/* Cancel Confirmation Modal */}
+            {
+                showCancelModal && selectedEvent && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-lg p-6 max-w-md w-full">
+                            <h3 className="text-xl font-bold text-gray-900 mb-4">Annuler l&apos;événement ?</h3>
+                            <p className="text-gray-600 mb-6">
+                                Êtes-vous sûr de vouloir annuler <strong>{selectedEvent.title}</strong> ?
+                                <br /><br />
+                                <span className="text-red-600 font-bold">ATTENTION :</span> Cette action est irréversible.
+                                Tous les billets vendus seront annulés et marqués comme &quot;Remboursés&quot; dans le système.
+                            </p>
+                            <div className="flex justify-end gap-3">
+                                <button
+                                    onClick={() => setShowCancelModal(false)}
+                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium"
+                                >
+                                    Retour
+                                </button>
+                                <button
+                                    onClick={confirmCancel}
+                                    className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg font-bold shadow-sm"
+                                >
+                                    Rembourser et Annuler
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        )
-    }
+                )
+            }
         </div >
     );
 }
