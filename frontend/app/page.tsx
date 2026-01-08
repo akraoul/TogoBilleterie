@@ -39,12 +39,12 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 font-sans">
       <Navbar />
       {/* Hero Section */}
-      <section className="relative bg-togo-green h-[600px] rounded-br-[80px] overflow-hidden">
+      <section className="relative bg-togo-green min-h-[600px] h-auto py-12 md:py-0 rounded-br-[80px] overflow-hidden flex items-center">
         {/* Abstract Background Patterns */}
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffce00_1px,transparent_1px)] [background-size:20px_20px]"></div>
         <div className="absolute top-0 right-0 w-1/2 h-full bg-togo-yellow/10 transform skew-x-12 translate-x-20"></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="max-w-3xl space-y-8 animate-fade-in-up">
             <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-1.5 text-togo-yellow text-sm font-bold border border-white/20">
               <span className="w-2 h-2 rounded-full bg-togo-yellow animate-pulse"></span>
