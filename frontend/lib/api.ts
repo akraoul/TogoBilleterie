@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+
 const api = axios.create({
-    baseURL: 'http://localhost:3001/api', // Make sure this matches backend URL
+    baseURL: `${BACKEND_URL}/api`,
 });
 
 api.interceptors.request.use((config) => {

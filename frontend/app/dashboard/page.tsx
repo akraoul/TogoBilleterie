@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Navbar } from '@/components/Navbar';
-import api from '@/lib/api';
+import api, { BACKEND_URL } from '@/lib/api';
 import { QRCodeSVG } from 'qrcode.react';
 import { Calendar, MapPin, Clock, Ticket as TicketIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -76,7 +76,7 @@ export default function DashboardPage() {
                                 <div className="h-32 bg-gray-100 relative">
                                     {ticket.event.imageUrl ? (
                                         <img
-                                            src={ticket.event.imageUrl.startsWith('http') ? ticket.event.imageUrl : `http://localhost:3001/${ticket.event.imageUrl}`}
+                                            src={ticket.event.imageUrl.startsWith('http') ? ticket.event.imageUrl : `${BACKEND_URL}/${ticket.event.imageUrl}`}
                                             alt={ticket.event.title}
                                             className="w-full h-full object-cover"
                                         />

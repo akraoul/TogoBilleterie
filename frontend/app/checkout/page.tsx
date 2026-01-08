@@ -9,8 +9,7 @@ import { useState, useEffect, Suspense, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { fetchEventById } from "@/lib/api";
-import api from "@/lib/api";
+import api, { fetchEventById, BACKEND_URL } from "@/lib/api";
 import { QRCodeSVG } from 'qrcode.react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -121,7 +120,7 @@ function CheckoutContent() {
         // Construct image URL properly. Assuming backend is on localhost:3001
         // If event.imageUrl is "uploads/events/file.jpg", we prepend the base.
         const imageUrl = event?.imageUrl
-            ? (event.imageUrl.startsWith('http') ? event.imageUrl : `http://localhost:3001/${event.imageUrl}`)
+            ? (event.imageUrl.startsWith('http') ? event.imageUrl : `${BACKEND_URL}/${event.imageUrl}`)
             : null;
 
         return (
