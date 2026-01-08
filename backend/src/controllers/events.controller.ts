@@ -217,7 +217,6 @@ export const getEventById = async (req: Request, res: Response) => {
 
         res.json(event);
     } catch (error) {
-    } catch (error) {
         res.status(500).json({ message: 'Error fetching event details', error });
     }
 };

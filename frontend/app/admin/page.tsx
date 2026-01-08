@@ -133,14 +133,34 @@ export default function AdminDashboard() {
                                             </td>
                                             <td className="px-6 py-4">{event.organizer}</td>
                                             <td className="px-6 py-4">
-                                                <span className={`px-2 py-1 text-xs font-bold rounded-full ${event.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
-                                                    event.status === 'REJECTED' ? 'bg-red-100 text-red-800' :
-                                                        event.status === 'CANCELLED' ? 'bg-gray-100 text-gray-800' :
-                                                            event.status === 'CANCELLATION_REQUESTED' ? 'bg-orange-100 text-orange-800' :
-                                                                'bg-yellow-100 text-yellow-800'
-                                                    }`}>
-                                                    {event.status === 'CANCELLATION_REQUESTED' ? 'Demande Annul.' : event.status}
-                                                </span>
+                                                <div className="flex items-center gap-3">
+                                                    <span className={`px-2 py-1 text-xs font-bold rounded-full ${event.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
+                                                        event.status === 'REJECTED' ? 'bg-red-100 text-red-800' :
+                                                            event.status === 'CANCELLED' ? 'bg-gray-100 text-gray-800' :
+                                                                event.status === 'CANCELLATION_REQUESTED' ? 'bg-orange-100 text-orange-800' :
+                                                                    'bg-yellow-100 text-yellow-800'
+                                                        }`}>
+                                                        {event.status === 'CANCELLATION_REQUESTED' ? 'Demande Annul.' : event.status}
+                                                    </span>
+                                                    <button
+                                                        onClick={async () => {
+                                                            if (!confirm(`Êtes-vous sûr de vouloir SUPPRIMER définitivement l'événement "${event.title}" ?\n\nATTENTION : Cette action supprimera également tous les billets et paiements associés !`)) return;
+                                                            try {
+                                                                await api.delete(`/events/${event.id}`);
+                                                                alert("Événement supprimé avec succès.");
+                                                                // Refresh list
+                                                                setEvents(events.filter(e => e.id !== event.id));
+                                                            } catch (error) {
+                                                                console.error("Delete failed", error);
+                                                                alert("Erreur lors de la suppression");
+                                                            }
+                                                        }}
+                                                        className="text-gray-400 hover:text-red-600 transition-colors p-1"
+                                                        title="Supprimer définitivement"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))
