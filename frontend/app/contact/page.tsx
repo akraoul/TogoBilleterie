@@ -70,7 +70,7 @@ export default function ContactPage() {
                 <div className="max-w-4xl mx-auto text-center">
                     <h1 className="text-4xl md:text-6xl font-bold mb-6">Contactez-nous</h1>
                     <p className="text-xl text-green-100 max-w-2xl mx-auto">
-                        Une question ? Une suggestion ? N'hésitez pas à nous écrire ou à nous appeler. Notre équipe est là pour vous aider.
+                        Une question ? Une suggestion ? N&apos;hésitez pas à nous écrire ou à nous appeler. Notre équipe est là pour vous aider.
                     </p>
                 </div>
             </section>

@@ -63,7 +63,7 @@ export default function DashboardPage() {
                     <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-300">
                         <TicketIcon className="mx-auto h-12 w-12 text-gray-300 mb-4" />
                         <h3 className="text-lg font-medium text-gray-900">Aucun billet trouvé</h3>
-                        <p className="text-gray-500 mt-2 mb-6">Vous n'avez pas encore acheté de billets.</p>
+                        <p className="text-gray-500 mt-2 mb-6">Vous n&apos;avez pas encore acheté de billets.</p>
                         <Link href="/events">
                             <Button className="bg-togo-green hover:bg-green-700">Découvrir les événements</Button>
                         </Link>

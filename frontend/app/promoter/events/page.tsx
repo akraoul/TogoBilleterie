@@ -45,7 +45,7 @@ export default function MyEventsPage() {
 
             {events.length === 0 ? (
                 <div className="bg-white rounded-lg shadow-sm p-12 text-center text-gray-500 border border-gray-200">
-                    <p className="text-xl mb-4">Vous n'avez pas encore créé d'événement.</p>
+                    <p className="text-xl mb-4">Vous n&apos;avez pas encore créé d&apos;événement.</p>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 gap-6">
@@ -56,7 +56,7 @@ export default function MyEventsPage() {
                                     <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                        Pas d'image
+                                        Pas d&apos;image
                                     </div>
                                 )}
                             </div>

@@ -5,6 +5,12 @@ import { PlusCircle, Calendar, Ticket } from "lucide-react";
 import { useEffect, useState } from "react";
 import api from "@/lib/api";
 
+interface PromoterEvent {
+    _count?: {
+        tickets: number;
+    };
+}
+
 export default function PromoterDashboard() {
     const [stats, setStats] = useState({
         totalEvents: 0,
@@ -20,7 +26,7 @@ export default function PromoterDashboard() {
 
                 // Calculate totals
                 const totalEvents = events.length;
-                const totalTicketsSold = events.reduce((acc: number, event: any) => {
+                const totalTicketsSold = events.reduce((acc: number, event: PromoterEvent) => {
                     // Requires backend to include: include: { _count: { select: { tickets: true } } }
                     return acc + (event._count?.tickets || 0);
                 }, 0);

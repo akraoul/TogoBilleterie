@@ -57,7 +57,7 @@ export default function AdminValidations() {
                                     <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-gray-400">
-                                        Pas d'image
+                                        Pas d&apos;image
                                     </div>
                                 )}
                                 <div className="absolute top-4 left-4 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full uppercase">

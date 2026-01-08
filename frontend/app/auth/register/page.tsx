@@ -117,7 +117,7 @@ export default function RegisterPage() {
 
                     <div className="text-center mt-4">
                         <Link href="/auth/login" className="text-sm font-medium text-togo-yellow hover:text-white transition-colors">
-                            J'ai déjà un compte →
+                            J&apos;ai déjà un compte →
                         </Link>
                     </div>
                 </div>

@@ -290,7 +290,7 @@ function CheckoutContent() {
                                 Télécharger le ticket (PDF)
                             </Button>
                             <Link href="/">
-                                <Button variant="ghost" className="w-full">Retour à l'accueil</Button>
+                                <Button variant="ghost" className="w-full">Retour à l&apos;accueil</Button>
                             </Link>
                         </div>
                     </div>

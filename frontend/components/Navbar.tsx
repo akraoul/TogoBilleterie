@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Search, Menu, Ticket, X } from "lucide-react";
+import { Menu, Ticket, X } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 import { useAuth } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 export function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { user, logout } = useAuth();
-    const router = useRouter();
+    // const router = useRouter();
 
     const handleLogout = () => {
         logout();

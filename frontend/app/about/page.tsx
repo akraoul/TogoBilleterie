@@ -14,10 +14,10 @@ export default function AboutPage() {
                 <div className="absolute inset-0 z-0 bg-gradient-to-br from-togo-green/80 via-transparent to-togo-red/80 mix-blend-overlay"></div>
                 <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
                     <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-                        L'Âme Culturelle <span className="text-togo-yellow">du Togo</span>
+                        L&apos;Âme Culturelle <span className="text-togo-yellow">du Togo</span>
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-200 font-light max-w-2xl mx-auto leading-relaxed">
-                        Plus qu'une simple billetterie, nous sommes le pont entre votre passion et la richesse événementielle de notre terre.
+                        Plus qu&apos;une simple billetterie, nous sommes le pont entre votre passion et la richesse événementielle de notre terre.
                     </p>
                 </div>
             </section>
@@ -29,10 +29,10 @@ export default function AboutPage() {
                         <h2 className="text-sm font-bold text-togo-green uppercase tracking-wider mb-2">Notre Mission</h2>
                         <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Réinventer la découverte événementielle au Togo.</h3>
                         <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                            TogoBilleterie est né d'un constat simple : le talent et la culture togolaise bouillonnent, mais l'accès à ces expériences reste parfois complexe.
+                            TogoBilleterie est né d&apos;un constat simple : le talent et la culture togolaise bouillonnent, mais l&apos;accès à ces expériences reste parfois complexe.
                         </p>
                         <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                            Notre objectif est de digitaliser l'écosystème culturel en offrant une plateforme sécurisée, intuitive et adaptée à nos réalités locales, notamment grâce à l'intégration de T-Money et Flooz.
+                            Notre objectif est de digitaliser l&apos;écosystème culturel en offrant une plateforme sécurisée, intuitive et adaptée à nos réalités locales, notamment grâce à l&apos;intégration de T-Money et Flooz.
                         </p>
                         <div className="grid grid-cols-2 gap-6">
                             <div className="flex gap-3">
@@ -80,7 +80,7 @@ export default function AboutPage() {
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">Festivals & Traditions</h3>
                             <p className="text-gray-600 leading-relaxed">
-                                Des luttes Evala en pays Kabyé à la fête des moissons, vivez l'intensité de nos traditions ancestrales qui rythment l'année et unissent les peuples.
+                                Des luttes Evala en pays Kabyé à la fête des moissons, vivez l&apos;intensité de nos traditions ancestrales qui rythment l&apos;année et unissent les peuples.
                             </p>
                         </div>
 
@@ -91,7 +91,7 @@ export default function AboutPage() {
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">Arts & Artisanat</h3>
                             <p className="text-gray-600 leading-relaxed">
-                                Découvrez le génie créatif togolais, des batiks colorés aux sculptures sur bois, en passant par l'art contemporain qui expose à Lomé et au-delà.
+                                Découvrez le génie créatif togolais, des batiks colorés aux sculptures sur bois, en passant par l&apos;art contemporain qui expose à Lomé et au-delà.
                             </p>
                         </div>
 
@@ -102,7 +102,7 @@ export default function AboutPage() {
                             </div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-3">Musique & Scène</h3>
                             <p className="text-gray-600 leading-relaxed">
-                                Vibrez au son de l'Afrobeat, du Highlife et des nouvelles sonorités urbaines. Nos scènes accueillent les talents confirmés et les stars de demain.
+                                Vibrez au son de l&apos;Afrobeat, du Highlife et des nouvelles sonorités urbaines. Nos scènes accueillent les talents confirmés et les stars de demain.
                             </p>
                         </div>
                     </div>
@@ -161,7 +161,7 @@ export default function AboutPage() {
             {/* CTA Section */}
             <section className="py-24 px-4 bg-white text-center">
                 <div className="max-w-3xl mx-auto">
-                    <h2 className="text-4xl font-bold text-gray-900 mb-6">Prêt à vivre l'expérience ?</h2>
+                    <h2 className="text-4xl font-bold text-gray-900 mb-6">Prêt à vivre l&apos;expérience ?</h2>
                     <p className="text-xl text-gray-600 mb-10">
                         Ne manquez plus aucun événement. Rejoignez la plateforme numéro 1 de billetterie au Togo.
                     </p>

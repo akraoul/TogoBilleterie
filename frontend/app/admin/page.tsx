@@ -34,7 +34,7 @@ export default function AdminDashboard() {
 
     return (
         <div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-8">Vue d'ensemble</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-8">Vue d&apos;ensemble</h2>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -133,8 +133,8 @@ export default function AdminDashboard() {
                                             <td className="px-6 py-4">{event.organizer}</td>
                                             <td className="px-6 py-4">
                                                 <span className={`px-2 py-1 text-xs font-bold rounded-full ${event.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
-                                                        event.status === 'REJECTED' ? 'bg-red-100 text-red-800' :
-                                                            'bg-yellow-100 text-yellow-800'
+                                                    event.status === 'REJECTED' ? 'bg-red-100 text-red-800' :
+                                                        'bg-yellow-100 text-yellow-800'
                                                     }`}>
                                                     {event.status}
                                                 </span>

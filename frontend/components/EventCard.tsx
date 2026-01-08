@@ -30,7 +30,7 @@ export default function EventCard({ event }: { event: EventProps }) {
                     />
                 ) : (
                     <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
-                        <span className="text-sm">Pas d'image</span>
+                        <span className="text-sm">Pas d&apos;image</span>
                     </div>
                 )}
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-togo-green uppercase tracking-wide">
