@@ -40,6 +40,27 @@ export default function MyEventsPage() {
         }
     };
 
+    const handleCancelClick = (event: any) => {
+        setSelectedEvent(event);
+        setShowCancelModal(true);
+    };
+
+    const confirmCancel = async () => {
+        if (!selectedEvent) return;
+        try {
+            await api.post(`/events/${selectedEvent.id}/cancel`);
+            // Refresh events
+            const { data } = await api.get('/events/my');
+            setEvents(data);
+            setShowCancelModal(false);
+            setSelectedEvent(null);
+            alert("L'événement a été annulé avec succès.");
+        } catch (error) {
+            console.error('Error cancelling event', error);
+            alert("Erreur lors de l'annulation.");
+        }
+    };
+
     if (loading) return <div>Chargement...</div>;
 
     return (
