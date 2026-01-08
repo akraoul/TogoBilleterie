@@ -22,4 +22,8 @@ router.use(authenticateToken); // Apply auth to all promoter routes below
 router.post('/', authorizeOrganizer, upload.single('image'), createEvent);
 router.put('/:id', authorizeOrganizer, upload.single('image'), updateEvent);
 
+// Cancellation
+import { cancelEvent } from '../controllers/cancellation.controller';
+router.post('/:id/cancel', authorizeOrganizer, cancelEvent);
+
 export default router;

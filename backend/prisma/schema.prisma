@@ -87,6 +87,7 @@ enum EventStatus {
   PENDING
   APPROVED
   REJECTED
+  CANCELLED
 }
 
 enum TicketStatus {
@@ -99,6 +100,7 @@ enum PaymentStatus {
   PENDING
   COMPLETED
   FAILED
+  REFUNDED
 }
 
 enum PaymentMethod {

@@ -10,6 +10,8 @@ import { getValidImageUrl } from '../../../lib/utils';
 export default function MyEventsPage() {
     const [events, setEvents] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedEvent, setSelectedEvent] = useState<any>(null);
+    const [showCancelModal, setShowCancelModal] = useState(false);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -31,6 +33,8 @@ export default function MyEventsPage() {
                 return <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-bold uppercase">Validé</span>;
             case 'REJECTED':
                 return <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-bold uppercase">Rejeté</span>;
+            case 'CANCELLED':
+                return <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs font-bold uppercase">Annulé</span>;
             default:
                 return <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-bold uppercase">En Attente</span>;
         }
@@ -101,6 +105,15 @@ export default function MyEventsPage() {
                                     <button className="text-togo-green font-medium hover:text-green-800 text-sm transition-colors">
                                         Voir détails &rarr;
                                     </button>
+
+                                    {event.status !== 'CANCELLED' && event.status !== 'REJECTED' && (
+                                        <button
+                                            onClick={() => handleCancelClick(event)}
+                                            className="text-red-600 font-medium hover:text-red-800 text-sm transition-colors ml-2"
+                                        >
+                                            Annuler
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -108,5 +121,37 @@ export default function MyEventsPage() {
                 </div>
             )}
         </div>
+
+            {/* Cancel Confirmation Modal */ }
+    {
+        showCancelModal && selectedEvent && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-lg p-6 max-w-md w-full">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4">Annuler l&apos;événement ?</h3>
+                    <p className="text-gray-600 mb-6">
+                        Êtes-vous sûr de vouloir annuler <strong>{selectedEvent.title}</strong> ?
+                        <br /><br />
+                        <span className="text-red-600 font-bold">ATTENTION :</span> Cette action est irréversible.
+                        Tous les billets vendus seront annulés et marqués comme &quot;Remboursés&quot; dans le système.
+                    </p>
+                    <div className="flex justify-end gap-3">
+                        <button
+                            onClick={() => setShowCancelModal(false)}
+                            className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium"
+                        >
+                            Retour
+                        </button>
+                        <button
+                            onClick={confirmCancel}
+                            className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg font-bold shadow-sm"
+                        >
+                            Rembourser et Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+        </div >
     );
 }
