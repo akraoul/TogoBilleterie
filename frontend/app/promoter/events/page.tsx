@@ -153,7 +153,7 @@ export default function MyEventsPage() {
                                 Êtes-vous sûr de vouloir annuler <strong>{selectedEvent.title}</strong> ?
                                 <br /><br />
                                 <span className="text-red-600 font-bold">ATTENTION :</span> Cette action est irréversible.
-                                Tous les billets vendus seront annulés et marqués comme &quot;Remboursés&quot; dans le système.
+                                Tous les billets vendus seront annulés et seront Remboursés.
                             </p>
                             <div className="flex justify-end gap-3">
                                 <button
