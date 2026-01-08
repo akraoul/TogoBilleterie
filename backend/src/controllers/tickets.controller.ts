@@ -10,15 +10,24 @@ export const buyTicket = async (req: Request, res: Response) => {
         const name = `${firstName} ${lastName}`;
 
         // 1. Find or Create User
-        // We check by email or phone.
-        let user = await prisma.user.findFirst({
-            where: {
-                OR: [
-                    { email: email || undefined },
-                    { phoneNumber: phone || undefined }
-                ]
-            }
-        });
+        let user: any = null;
+        const loggedInUserId = (req as any).user?.userId;
+
+        if (loggedInUserId) {
+            user = await prisma.user.findUnique({ where: { id: loggedInUserId } });
+        }
+
+        if (!user) {
+            // Check by email or phone.
+            user = await prisma.user.findFirst({
+                where: {
+                    OR: [
+                        { email: email || undefined },
+                        { phoneNumber: phone || undefined }
+                    ]
+                }
+            });
+        }
 
         if (!user) {
             // Create new user (Guest)
@@ -36,6 +45,9 @@ export const buyTicket = async (req: Request, res: Response) => {
                 }
             });
             console.log(`Created new user for checkout: ${user.id}`);
+        } else if (loggedInUserId && user) {
+            // Optional: Update missing info (e.g. phone) if logged in?
+            // For now, we just trust the found user is the one to link.
         }
 
         // 2. Verify Event and Ticket Type

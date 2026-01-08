@@ -21,3 +21,18 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
         res.status(403).json({ message: 'Invalid token' });
     }
 };
+
+export const optionalAuthenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (token) {
+        try {
+            const verified = jwt.verify(token, process.env.JWT_SECRET || 'secret_key');
+            req.user = verified;
+        } catch (err) {
+            console.warn("Optional auth token invalid, proceeding as guest.");
+        }
+    }
+    next();
+};
