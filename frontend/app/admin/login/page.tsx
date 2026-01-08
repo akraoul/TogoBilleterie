@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import api from '../../../lib/api';
-import { LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard, Eye, EyeOff } from 'lucide-react';
 
 export default function AdminLoginPage() {
     const [identifier, setIdentifier] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const { login } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
@@ -87,17 +88,24 @@ export default function AdminLoginPage() {
                             <label htmlFor="password" className="block text-sm font-medium text-gray-300">
                                 Mot de passe
                             </label>
-                            <div className="mt-1">
+                            <div className="mt-1 relative">
                                 <input
                                     id="password"
                                     name="password"
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     autoComplete="current-password"
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-togo-yellow focus:border-togo-yellow sm:text-sm bg-gray-700 text-white"
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm placeholder-gray-500 focus:outline-none focus:ring-togo-yellow focus:border-togo-yellow sm:text-sm bg-gray-700 text-white pr-10"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white"
+                                >
+                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
                             </div>
                         </div>
 
@@ -110,9 +118,13 @@ export default function AdminLoginPage() {
                                 {isLoading ? 'Connexion...' : 'Accéder au tableau de bord'}
                             </button>
                         </div>
-                    </form>
+                    >
+                        {isLoading ? 'Connexion...' : 'Accéder au tableau de bord'}
+                    </button>
                 </div>
-            </div>
+            </form>
         </div>
+            </div >
+        </div >
     );
 }
