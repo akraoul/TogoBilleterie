@@ -118,13 +118,9 @@ export default function AdminLoginPage() {
                                 {isLoading ? 'Connexion...' : 'Accéder au tableau de bord'}
                             </button>
                         </div>
-                    >
-                        {isLoading ? 'Connexion...' : 'Accéder au tableau de bord'}
-                    </button>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-            </div >
-        </div >
     );
 }
