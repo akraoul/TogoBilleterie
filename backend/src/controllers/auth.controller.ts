@@ -110,9 +110,81 @@ export const me = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+
         // @ts-ignore
         res.json({ id: user.id, email: user.email, phoneNumber: user.phoneNumber, name: user.name, role: user.role });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching user', error });
+    }
+};
+
+import crypto from 'crypto';
+import { sendEmail } from '../utils/email';
+
+export const forgotPassword = async (req: Request, res: Response) => {
+    try {
+        const { email } = req.body;
+        const user = await prisma.user.findUnique({ where: { email } });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Aucun utilisateur trouvé avec cet email.' });
+        }
+
+        // Generate token
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        const resetTokenExpires = new Date(Date.now() + 3600000); // 1 hour
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                resetPasswordToken: resetToken,
+                resetPasswordExpires: resetTokenExpires,
+            },
+        });
+
+        // Send email
+        // In production, use env var for frontend URL
+        const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth/reset-password?token=${resetToken}`;
+        const message = `Vous avez demandé la réinitialisation de votre mot de passe. Veuillez cliquer sur ce lien pour en créer un nouveau :\n\n${resetUrl}`;
+
+        await sendEmail(user.email!, 'Réinitialisation de mot de passe', message);
+
+        res.json({ message: 'Email de réinitialisation envoyé.' });
+    } catch (error) {
+        logError(error, "Forgot Password Failed");
+        res.status(500).json({ message: 'Erreur lors de l\'envoi de l\'email.' });
+    }
+};
+
+export const resetPassword = async (req: Request, res: Response) => {
+    try {
+        const { token, newPassword } = req.body;
+
+        const user = await prisma.user.findFirst({
+            where: {
+                resetPasswordToken: token,
+                resetPasswordExpires: { gt: new Date() },
+            },
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Jeton invalide ou expiré.' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                password: hashedPassword,
+                resetPasswordToken: null,
+                resetPasswordExpires: null,
+            },
+        });
+
+        res.json({ message: 'Mot de passe réinitialisé avec succès.' });
+    } catch (error) {
+        logError(error, "Reset Password Failed");
+        res.status(500).json({ message: 'Erreur lors de la réinitialisation.' });
     }
 };

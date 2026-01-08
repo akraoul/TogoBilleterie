@@ -4,11 +4,12 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../../../context/AuthContext';
 import api from '../../../lib/api';
-import { Ticket } from 'lucide-react';
+import { Ticket, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
     const [identifier, setIdentifier] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const { login } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
@@ -111,17 +112,32 @@ export default function LoginPage() {
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                 Mot de passe
                             </label>
-                            <div className="mt-1">
+                            <div className="mt-1 relative">
                                 <input
                                     id="password"
                                     name="password"
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     autoComplete="current-password"
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-togo-green focus:border-togo-green sm:text-sm text-black"
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-togo-green focus:border-togo-green sm:text-sm text-black pr-10"
                                 />
+                                <button
+                                    type="button"
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-end">
+                            <div className="text-sm">
+                                <Link href="/auth/forgot-password" className="font-medium text-togo-green hover:text-green-500">
+                                    Mot de passe oublié ?
+                                </Link>
                             </div>
                         </div>
 

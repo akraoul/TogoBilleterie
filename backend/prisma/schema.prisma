@@ -15,6 +15,8 @@ model User {
   password    String   // Will be hashed
   role        Role     @default(USER)
   tickets     Ticket[]
+  resetPasswordToken   String?   @unique
+  resetPasswordExpires DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
